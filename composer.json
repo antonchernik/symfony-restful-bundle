@@ -6,11 +6,11 @@
   "require": {
     "php": "^7.2",
     "doctrine/annotations": "^1.10",
+    "symfony/framework-bundle": "5.0.*",
     "sensio/framework-extra-bundle": "^5.5",
-    "symfony/serializer": "^5.0",
-    "symfony/validator": "^5.0",
     "doctrine/collections": "^1.5",
-    "antonchernik/dto-bundle": "^1.0"
+    "antonchernik/dto-bundle": "^1.0",
+    "antonchernik/logging-bundle": "^1.0"
   },
   "autoload": {
     "psr-4": { "RestfulBundle\\": "src/" }

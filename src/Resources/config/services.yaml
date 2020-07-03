@@ -16,8 +16,15 @@ services:
   # this creates a service per class whose id is the fully-qualified class name
   RestfulBundle\:
     resource: '../../*'
-    exclude: '../../{DependencyInjection,DQL}'
+    exclude: '../../{DependencyInjection}'
 
   RestfulBundle\Service\RequestTracker:
     arguments:
       $requestId: '%restfulBundle.requestId%'
+
+  App\EventListener\ExceptionListener:
+    arguments:
+      $logger: '@monolog.logger.main'
+      $requestId: '%restfulBundle.requestId%'
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
