@@ -9,6 +9,14 @@ use Monolog\Processor\ProcessorInterface;
 class RequestIdentifierProcessor implements ProcessorInterface
 {
     /**
+     * @param string $requestId
+     */
+    public function __construct(string $requestId)
+    {
+        $this->requestId = $requestId;
+    }
+
+    /**
      * @var string
      */
     private string $requestId;
@@ -17,13 +25,5 @@ class RequestIdentifierProcessor implements ProcessorInterface
     {
         $records['extra']['requestId'] = $this->requestId;
         return $records;
-    }
-
-    /**
-     * @param string $requestId
-     */
-    public function __construct(string $requestId)
-    {
-        $this->requestId = $requestId;
     }
 }

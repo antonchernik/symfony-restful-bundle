@@ -22,7 +22,13 @@ services:
     arguments:
       $requestId: '%restfulBundle.requestId%'
 
-  App\EventListener\ExceptionListener:
+  RestfulBundle\Monolog\Processor\RequestIdentifierProcessor:
+    arguments:
+      $requestId: '%application.requestId%'
+    tags:
+      - { name: monolog.processor }
+
+  RestfulBundle\EventListener\ExceptionListener:
     arguments:
       $logger: '@monolog.logger.main'
       $requestId: '%restfulBundle.requestId%'
