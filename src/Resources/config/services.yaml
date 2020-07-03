@@ -24,7 +24,7 @@ services:
 
   RestfulBundle\Monolog\Processor\RequestIdentifierProcessor:
     arguments:
-      $requestId: '%application.requestId%'
+      $requestId: '%restfulBundle.requestId%'
     tags:
       - { name: monolog.processor }
 
