@@ -11,16 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity as DoctrineEntity;
  */
 class Entity extends DoctrineEntity
 {
-    /**
-     * @var string
-     */
-    private $notFoundMessage = 'entity.not_found';
+    private string $notFoundMessage = 'entity.not_found';
 
-    /**
-     * @param string $message
-     *
-     * @return Entity
-     */
     public function setNotFoundMessage(string $message): self
     {
         $this->notFoundMessage = $message;
@@ -28,9 +20,6 @@ class Entity extends DoctrineEntity
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getNotFoundMessage(): string
     {
         return $this->notFoundMessage;

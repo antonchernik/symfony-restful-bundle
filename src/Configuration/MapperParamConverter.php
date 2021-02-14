@@ -11,25 +11,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class MapperParamConverter extends ParamConverter
 {
-    /**
-     * @var array
-     */
-    private $validationGroups = array('Default');
+    private array $validationGroups = ['Default'];
 
-    /**
-     * @return array
-     */
     public function getValidationGroups(): array
     {
         return $this->validationGroups;
     }
 
-    /**
-     * @param array $validationGroups
-     *
-     * @return $this
-     */
-    public function setValidationGroups(array $validationGroups)
+    public function setValidationGroups(array $validationGroups): self
     {
         $this->validationGroups = $validationGroups;
 
