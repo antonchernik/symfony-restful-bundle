@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace RestfulBundle\Configuration;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Annotation
  */
-class MapperParamConverter extends ParamConverter
+class MapperParamConverter extends ParamConverter implements ConfigurationInterface
 {
     private array $validationGroups = ['Default'];
 

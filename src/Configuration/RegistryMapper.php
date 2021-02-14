@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace RestfulBundle\Configuration;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
+
 /**
  * @Annotation
  */
-class RegistryMapper extends MapperParamConverter
+class RegistryMapper extends MapperParamConverter implements ConfigurationInterface
 {
     private string $registry;
 
