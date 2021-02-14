@@ -16,7 +16,7 @@ services:
   # this creates a service per class whose id is the fully-qualified class name
   RestfulBundle\:
     resource: '../../*'
-    exclude: '../../{Configuration,DependencyInjection,Request}'
+    exclude: '../../{DependencyInjection}'
 
   RestfulBundle\ParamConverter\MapperConverter:
     tags:
