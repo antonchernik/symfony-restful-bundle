@@ -18,11 +18,11 @@ services:
     resource: '../../*'
     exclude: '../../{DependencyInjection}'
 
-  RestBundle\ParamConverter\MapperConverter:
+  RestfulBundle\ParamConverter\MapperConverter:
     tags:
       - { name: request.param_converter, priority: -2, converter: mapper_converter }
 
-  RestBundle\ParamConverter\EntityDoctrineParamConverter:
+  RestfulBundle\ParamConverter\EntityDoctrineParamConverter:
     arguments:
       $expressionLanguage: '@?sensio_framework_extra.converter.doctrine.orm.expression_language.default'
     tags:
