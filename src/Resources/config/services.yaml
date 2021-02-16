@@ -40,7 +40,8 @@ services:
 
   RestfulBundle\EventListener\ExceptionListener:
     arguments:
-      $logger: '@monolog.logger.api'
+      $logger: '@logger'
       $requestId: '%restfulBundle.requestId%'
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
+      - { name: monolog.logger, channel: api }
