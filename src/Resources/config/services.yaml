@@ -48,12 +48,12 @@ services:
       - { name: kernel.event_listener, event: kernel.exception }
       - { name: monolog.logger, channel: api }
 
-  RestfulBundle\Exception\Handler\ExceptionHandler:
+  RestfulBundle\Handler\ExceptionHandler:
     arguments: [ "%kernel.debug%" ]
     tags:
       - { name: exception_handler, priority: -100 }
 
-  RestfulBundle\Exception\Handler\ValidationHandler:
+  RestfulBundle\Handler\ValidationHandler:
     arguments: [ "%kernel.debug%", "%restful_bundle.validation.message_map%", "%restfulBundle.validation.snake_case%" ]
     tags:
       - { name: exception_handler, priority: 100 }
