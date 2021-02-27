@@ -4,7 +4,7 @@
   "description": "Useful classes for Restful API",
   "license": "MIT",
   "require": {
-    "php": "^7.4",
+    "php": ">=8.0",
     "doctrine/annotations": ">=1.10",
     "symfony/framework-bundle": ">=5.0",
     "sensio/framework-extra-bundle": ">=6.0",

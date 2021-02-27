@@ -1,6 +1,8 @@
 parameters:
   env(X_HTTP_REQUEST_ID): ''
-  restfulBundle.requestId: '%env(X_HTTP_REQUEST_ID)%'
+  restful_bundle.request_id: '%env(X_HTTP_REQUEST_ID)%'
+  restful_bundle.validation.message_map: []
+  restfulBundle.validation.snake_case: true
 services:
   # default configuration for services in *this* file
   _defaults:
@@ -30,18 +32,18 @@ services:
 
   RestfulBundle\Service\RequestTracker:
     arguments:
-      $requestId: '%restfulBundle.requestId%'
+      $requestId: '%restful_bundle.request_id%'
 
   RestfulBundle\Monolog\Processor\RequestIdentifierProcessor:
     arguments:
-      $requestId: '%restfulBundle.requestId%'
+      $requestId: '%restful_bundle.request_id%'
     tags:
       - { name: monolog.processor }
 
   RestfulBundle\EventListener\ExceptionListener:
     arguments:
       $logger: '@logger'
-      $requestId: '%restfulBundle.requestId%'
+      $requestId: '%restful_bundle.request_id%'
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
       - { name: monolog.logger, channel: api }

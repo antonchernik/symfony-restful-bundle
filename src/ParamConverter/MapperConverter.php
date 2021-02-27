@@ -6,6 +6,7 @@ namespace RestfulBundle\ParamConverter;
 
 use DTOBundle\Mapper\MapperInterface;
 use RestfulBundle\Configuration\MapperParamConverter;
+use RestfulBundle\Exception\ValidationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,10 @@ class MapperConverter implements ParamConverterInterface
                 $class
             );
 
-        $this->validator->validate($dto, null, $configuration->getValidationGroups());
+        $errors = $this->validator->validate($dto, null, $configuration->getValidationGroups());
+        if (count($errors) > 0) {
+            throw new ValidationException((array)$errors->getIterator());
+        }
 
         $request->attributes->set($configuration->getName(), $dto);
 
