@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RestfulBundle\Exception;
 
-use RestfulBundle\Exception\Handler\ExceptionHandlerInterface;
+use RestfulBundle\Handler\ExceptionHandlerInterface;
 
 class ExceptionHandlerResolver
 {

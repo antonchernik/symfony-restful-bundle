@@ -40,6 +40,9 @@ services:
     tags:
       - { name: monolog.processor }
 
+  RestfulBundle\Exception\ExceptionHandlerResolver:
+    class: RestfulBundle\Exception\ExceptionHandlerResolver
+
   RestfulBundle\EventListener\ExceptionListener:
     arguments:
       $logger: '@logger'

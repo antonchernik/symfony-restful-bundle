@@ -49,7 +49,7 @@ class ExceptionListener
             $exception->getTraceAsString(),
         );
 
-        if (preg_match('/^5\d\d$/', $statusCode)) {
+        if (preg_match('/^5\d\d$/', (string) $statusCode)) {
             $this->logger->critical($message);
         } else {
             $this->logger->error($message);
