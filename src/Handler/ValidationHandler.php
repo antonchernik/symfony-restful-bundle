@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace RestfulBundle\Exception\Handler;
+namespace RestfulBundle\Handler;
 
-use JetBrains\PhpStorm\Pure;
 use RestfulBundle\Exception\ValidationExceptionInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 

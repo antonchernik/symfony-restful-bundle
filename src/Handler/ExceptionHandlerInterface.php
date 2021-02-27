@@ -1,6 +1,6 @@
 <?php
 
-namespace RestfulBundle\Exception\Handler;
+namespace RestfulBundle\Handler;
 
 interface ExceptionHandlerInterface
 {

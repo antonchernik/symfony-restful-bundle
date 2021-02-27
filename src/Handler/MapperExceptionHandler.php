@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RestfulBundle\Exception\Handler;
+namespace RestfulBundle\Handler;
 
 use AutoMapperPlus\Exception\UnsupportedSourceTypeException;
 use RestfulBundle\Dictionary\Messages;
