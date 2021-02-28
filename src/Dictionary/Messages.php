@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RestfulBundle\Dictionary;
 
-final class Messages
+class Messages
 {
     public const VALIDATION_ERROR = 'validation.common.error';
     public const ACCESS_DENIED = 'error.access_denied';
