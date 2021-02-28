@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace RestfulBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
-use RestfulBundle\Exception\ExceptionHandlerResolver;
-use RestfulBundle\Exception\ValidationExceptionInterface;
+use RestfulBundle\ExceptionHandlerResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ExceptionListener
 {

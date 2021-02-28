@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RestfulBundle\Exception;
+namespace RestfulBundle;
 
 use RestfulBundle\Handler\ExceptionHandlerInterface;
 

@@ -18,7 +18,10 @@ services:
   # this creates a service per class whose id is the fully-qualified class name
   RestfulBundle\:
     resource: '../../*'
-    exclude: '../../{DependencyInjection,Exception,Handler/MapperExceptionHandler.php}'
+    exclude:
+      - '../../DependencyInjection/'
+      - '../../Exception/'
+      - '../../Handler/MapperExceptionHandler.php'
 
   RestfulBundle\ParamConverter\MapperConverter:
     tags:
@@ -39,9 +42,6 @@ services:
       $requestId: '%restful_bundle.request_id%'
     tags:
       - { name: monolog.processor }
-
-  RestfulBundle\Exception\ExceptionHandlerResolver:
-    class: RestfulBundle\Exception\ExceptionHandlerResolver
 
   RestfulBundle\EventListener\ExceptionListener:
     arguments:

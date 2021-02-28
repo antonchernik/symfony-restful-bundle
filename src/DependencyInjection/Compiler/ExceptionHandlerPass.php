@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RestfulBundle\DependencyInjection\Compiler;
 
-use RestfulBundle\Exception\ExceptionHandlerResolver;
+use RestfulBundle\ExceptionHandlerResolver;
 use RestfulBundle\Handler\MapperExceptionHandler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
