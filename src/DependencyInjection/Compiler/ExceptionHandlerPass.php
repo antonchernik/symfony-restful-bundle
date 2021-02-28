@@ -29,7 +29,11 @@ class ExceptionHandlerPass implements CompilerPassInterface
         uasort(
             $handlers,
             function ($priority1, $priority2) {
-                return $priority1 < $priority2;
+                if ($priority1 === $priority2) {
+                    return 0;
+                }
+
+                return ($priority1 < $priority2) ? 1 : -1;
             }
         );
 
