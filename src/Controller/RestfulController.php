@@ -1,0 +1,76 @@
+<?php
+
+declare(strict_types=1);
+
+namespace RestfulBundle\Controller;
+
+use Doctrine\Common\Collections\Collection;
+use DTOBundle\Trait\MapperAwareInterface;
+use DTOBundle\Trait\MapperTrait;
+use DTOBundle\Trait\SerializerAwareInterface;
+use DTOBundle\Trait\SerializerTrait;
+use RestfulBundle\Dto\ListDto;
+use RestfulBundle\Service\RequestTracker;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
+use Symfony\Component\HttpFoundation\Response;
+
+class RestfulController extends SymfonyAbstractController implements MapperAwareInterface, SerializerAwareInterface
+{
+    use MapperTrait;
+    use SerializerTrait;
+
+    private const CONTENT_TYPE_APPLICATION_JSON = 'application/json';
+
+    private RequestTracker $requestTracker;
+
+    public function __construct(RequestTracker $requestTracker)
+    {
+        $this->requestTracker = $requestTracker;
+    }
+
+    private function createEmptyResponse(int $statusCode = Response::HTTP_NO_CONTENT): Response
+    {
+        return new Response('', $statusCode);
+    }
+
+    private function createResponse($data, $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
+    {
+        if (null !== $dtoName) {
+            $data = $this->mapper->convert($data, $dtoName, $context);
+        }
+
+        //serialize data
+        $data = $data instanceof \JsonSerializable
+            ? json_encode($data)
+            : $this->serializer->serialize($data, 'json');
+
+        //headers
+        $headers = [
+            'Content-Type' => self::CONTENT_TYPE_APPLICATION_JSON,
+        ];
+        $data['requestId'] = $this->requestTracker->getRequestId();
+
+        return new Response($data, $statusCode, $headers);
+    }
+
+    private function createListDto(int $total, array $collection): ListDto
+    {
+        return new ListDto($total, $collection);
+    }
+
+    private function createListResponse(int $total, iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
+    {
+        $items = ($collection instanceof Collection || $collection instanceof \Iterator)
+            ? $collection->toArray()
+            : $collection;
+        $items = empty($dtoName) ? $items : $this->mapper->convertCollection($items, $dtoName, $context);
+        $items = array_values($items instanceof \Traversable ? iterator_to_array($items) : $items);
+
+        return $this->createResponse($this->createListDto($total, $items), null, [], $statusCode);
+    }
+
+    private function createCollectionResponse(iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
+    {
+        return $this->createListResponse(count($collection), $collection, $dtoName, $context, $statusCode);
+    }
+}

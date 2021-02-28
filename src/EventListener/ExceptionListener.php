@@ -15,6 +15,8 @@ class ExceptionListener
     private string $requestId;
     private ExceptionHandlerResolver $handlerResolver;
 
+    protected const LOG_TEMPLATE = '%s File %s Line %s Trace: %s';
+
     /**
      * @param LoggerInterface $logger
      * @param string          $requestId
@@ -40,7 +42,7 @@ class ExceptionListener
         $event->setResponse(new JsonResponse($content, $statusCode, $headers));
 
         $message = sprintf(
-            '%s File %s Line %s Trace: %s',
+            self::LOG_TEMPLATE,
             $exception->getMessage(),
             $exception->getFile(),
             $exception->getLine(),
