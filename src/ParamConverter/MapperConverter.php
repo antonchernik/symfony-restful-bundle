@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RestfulBundle\ParamConverter;
 
-use DTOBundle\Mapper\MapperInterface;
+use DTOBundle\Mapper\AutoMapperAwareInterface;
 use RestfulBundle\Configuration\MapperParamConverter;
 use RestfulBundle\Exception\ValidationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -14,11 +14,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MapperConverter implements ParamConverterInterface
 {
-    private MapperInterface $mapper;
+    private AutoMapperAwareInterface $mapper;
 
     private ValidatorInterface $validator;
 
-    public function __construct(MapperInterface $mapper, ValidatorInterface $validator)
+    public function __construct(AutoMapperAwareInterface $mapper, ValidatorInterface $validator)
     {
         $this->validator = $validator;
         $this->mapper = $mapper;
