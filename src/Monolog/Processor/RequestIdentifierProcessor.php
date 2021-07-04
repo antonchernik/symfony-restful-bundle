@@ -8,17 +8,11 @@ use Monolog\Processor\ProcessorInterface;
 
 class RequestIdentifierProcessor implements ProcessorInterface
 {
-    /**
-     * @param string $requestId
-     */
     public function __construct(string $requestId)
     {
         $this->requestId = $requestId;
     }
 
-    /**
-     * @var string
-     */
     private string $requestId;
 
     public function __invoke(array $records)

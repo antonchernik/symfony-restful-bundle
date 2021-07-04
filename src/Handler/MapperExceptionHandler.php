@@ -24,7 +24,7 @@ class MapperExceptionHandler extends ExceptionHandler
     {
         $data['code'] = Response::HTTP_BAD_REQUEST;
         $data['message'] = Messages::VALIDATION_ERROR;
-        $data['errors'] = [(string)$throwable->getMessage()];
+        $data['errors'] = [$throwable->getMessage()];
 
         return $data;
     }

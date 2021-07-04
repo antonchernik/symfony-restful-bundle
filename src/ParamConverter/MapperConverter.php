@@ -14,9 +14,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MapperConverter implements ParamConverterInterface
 {
-    private AutoMapperAwareInterface $mapper;
+    protected AutoMapperAwareInterface $mapper;
 
-    private ValidatorInterface $validator;
+    protected ValidatorInterface $validator;
 
     public function __construct(AutoMapperAwareInterface $mapper, ValidatorInterface $validator)
     {

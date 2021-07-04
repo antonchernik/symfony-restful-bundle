@@ -21,19 +21,19 @@ class RestfulController extends SymfonyAbstractController implements MapperAware
 
     private const CONTENT_TYPE_APPLICATION_JSON = 'application/json';
 
-    private RequestTracker $requestTracker;
+    protected RequestTracker $requestTracker;
 
     public function __construct(RequestTracker $requestTracker)
     {
         $this->requestTracker = $requestTracker;
     }
 
-    private function createEmptyResponse(int $statusCode = Response::HTTP_NO_CONTENT): Response
+    protected function createEmptyResponse(int $statusCode = Response::HTTP_NO_CONTENT): Response
     {
         return new Response('', $statusCode);
     }
 
-    private function createResponse($data, $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
+    protected function createResponse($data, $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
     {
         if (null !== $dtoName) {
             $data = $this->mapper->convert($data, $dtoName, $context);
@@ -53,12 +53,12 @@ class RestfulController extends SymfonyAbstractController implements MapperAware
         return new Response($data, $statusCode, $headers);
     }
 
-    private function createListDto(int $total, array $collection): ListDto
+    protected function createListDto(int $total, array $collection): ListDto
     {
         return new ListDto($total, $collection);
     }
 
-    private function createListResponse(int $total, iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
+    protected function createListResponse(int $total, iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
     {
         $items = ($collection instanceof Collection || $collection instanceof \Iterator)
             ? $collection->toArray()
@@ -69,7 +69,7 @@ class RestfulController extends SymfonyAbstractController implements MapperAware
         return $this->createResponse($this->createListDto($total, $items), null, [], $statusCode);
     }
 
-    private function createCollectionResponse(iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
+    protected function createCollectionResponse(iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
     {
         return $this->createListResponse(count($collection), $collection, $dtoName, $context, $statusCode);
     }

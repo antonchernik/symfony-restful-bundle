@@ -8,25 +8,14 @@ use RestfulBundle\Handler\ExceptionHandlerInterface;
 
 class ExceptionHandlerResolver
 {
-    /**
-     * @var ExceptionHandlerInterface[]
-     */
     private array $handlers;
 
-    /**
-     * @param ExceptionHandlerInterface $handler
-     */
     public function addExceptionHandler(ExceptionHandlerInterface $handler)
     {
         $this->handlers[] = $handler;
     }
 
-    /**
-     * @param \Throwable $e
-     *
-     * @return ExceptionHandlerInterface
-     */
-    public function resolve(\Throwable $e)
+    public function resolve(\Throwable $e): ?ExceptionHandlerInterface
     {
         foreach ($this->handlers as $handler) {
             $supports = $handler->supports();
