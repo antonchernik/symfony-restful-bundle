@@ -47,8 +47,8 @@ class RestfulController extends SymfonyAbstractController implements MapperAware
         //headers
         $headers = [
             'Content-Type' => self::CONTENT_TYPE_APPLICATION_JSON,
+            'X-Request-Id' => $this->requestTracker->getRequestId(),
         ];
-        $data['requestId'] = $this->requestTracker->getRequestId();
 
         return new Response($data, $statusCode, $headers);
     }
