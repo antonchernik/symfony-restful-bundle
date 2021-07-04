@@ -3,9 +3,7 @@ parameters:
   restful_bundle.request_id: '%env(X_HTTP_REQUEST_ID)%'
   restful_bundle.validation.message_map: []
   restful_bundle.validation.snake_case: true
-framework:
-  serializer:
-    enabled: true
+
 services:
   # default configuration for services in *this* file
   _defaults:
