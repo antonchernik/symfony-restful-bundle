@@ -6,7 +6,7 @@ namespace RestfulBundle\Service;
 
 class RequestTracker
 {
-    private string $requestId;
+    protected string $requestId;
 
     public function __construct(string $requestId)
     {

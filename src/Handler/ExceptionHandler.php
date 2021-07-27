@@ -82,10 +82,10 @@ class ExceptionHandler implements ExceptionHandlerInterface
 
         switch (true) {
             case $statusCode == Response::HTTP_FORBIDDEN:
-                $message = Messages::ACCESS_DENIED;
+                $message = Messages::ERROR__ACCESS_DENIED;
                 break;
             case preg_match('/^5\d\d$/', $statusCode):
-                $message = Messages::INTERNAL_SERVER_ERROR;
+                $message = Messages::ERROR__INTERNAL_SERVER_ERROR;
                 break;
         }
 

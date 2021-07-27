@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 
 class ValidationHandler extends ExceptionHandler
 {
-    private array $messagesMap = [];
+    protected array $messagesMap = [];
 
     private bool $snakeCase;
 
@@ -38,7 +38,7 @@ class ValidationHandler extends ExceptionHandler
         return $data;
     }
 
-    private function collectErrorsToArray(array $errors, string $prefix = ''): array
+    protected function collectErrorsToArray(array $errors, string $prefix = ''): array
     {
         $data = [];
         foreach ($errors as $key => $error) {
@@ -65,12 +65,12 @@ class ValidationHandler extends ExceptionHandler
         return $data;
     }
 
-    private function combinePrefixWithField(string $prefix, string $field, string $combinePattern): string
+    protected function combinePrefixWithField(string $prefix, string $field, string $combinePattern): string
     {
         return '' === $prefix ? $field : sprintf($combinePattern, $prefix, $field);
     }
 
-    private function decorateField(string $prefix, string $field, string $combinePattern): string
+    protected function decorateField(string $prefix, string $field, string $combinePattern): string
     {
         $field = $this->combinePrefixWithField($prefix, $field, $combinePattern);
         if ($this->snakeCase) {

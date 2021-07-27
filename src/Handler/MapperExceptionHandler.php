@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace RestfulBundle\Handler;
 
 use AutoMapperPlus\Exception\UnsupportedSourceTypeException;
+use JetBrains\PhpStorm\Pure;
 use RestfulBundle\Dictionary\Messages;
 use Symfony\Component\HttpFoundation\Response;
 
 class MapperExceptionHandler extends ExceptionHandler
 {
-    public function __construct(bool $debug = false)
-    {
-        parent::__construct($debug);
-    }
-
     public function supports(): string
     {
         return UnsupportedSourceTypeException::class;
@@ -23,7 +19,7 @@ class MapperExceptionHandler extends ExceptionHandler
     public function getBody(\Throwable $throwable): array
     {
         $data['code'] = Response::HTTP_BAD_REQUEST;
-        $data['message'] = Messages::VALIDATION_ERROR;
+        $data['message'] = Messages::VALIDATION__COMMON__ERROR;
         $data['errors'] = [$throwable->getMessage()];
 
         return $data;

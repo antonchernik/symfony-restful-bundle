@@ -35,12 +35,13 @@ class MapperConverter implements ParamConverterInterface
                     $request->query->all(),
                     $request->request->all()
                 ),
-                $class
+                $class,
+                []
             );
 
         $errors = $this->validator->validate($dto, null, $configuration->getValidationGroups());
         if (count($errors) > 0) {
-            throw new ValidationException((array)$errors->getIterator());
+            throw new ValidationException((array) $errors->getIterator());
         }
 
         $request->attributes->set($configuration->getName(), $dto);

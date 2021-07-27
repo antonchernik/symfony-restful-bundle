@@ -11,9 +11,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
  */
 class RegistryMapper extends MapperParamConverter implements ConfigurationInterface
 {
-    private string $registry;
+    protected string $registry;
 
-    private string $method = 'getRequestDTO';
+    protected string $method = 'getRequestDTO';
 
     public function getMethod(): string
     {

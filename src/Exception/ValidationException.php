@@ -12,7 +12,7 @@ class ValidationException extends HttpException implements ValidationExceptionIn
 {
     private array $errors;
 
-    public function __construct(array $errors, string $message = Messages::VALIDATION_ERROR)
+    public function __construct(array $errors, string $message = Messages::VALIDATION__COMMON__ERROR)
     {
         $this->errors = $errors;
         parent::__construct(Response::HTTP_BAD_REQUEST, $message);

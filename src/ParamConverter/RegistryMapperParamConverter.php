@@ -40,7 +40,7 @@ class RegistryMapperParamConverter extends MapperConverter
         return $configuration instanceof RegistryMapper;
     }
 
-    private function getRegistry(string $class): RequestMapperInterface
+    protected function getRegistry(string $class): RequestMapperInterface
     {
         return $this->container->has($class)
             ? $this->container->get($class)

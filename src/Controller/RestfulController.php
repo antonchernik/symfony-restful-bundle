@@ -9,7 +9,7 @@ use DTOBundle\Trait\MapperAwareInterface;
 use DTOBundle\Trait\MapperTrait;
 use DTOBundle\Trait\SerializerAwareInterface;
 use DTOBundle\Trait\SerializerTrait;
-use RestfulBundle\Dto\ListDto;
+use RestfulBundle\DTO\ListDTO;
 use RestfulBundle\Service\RequestTracker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,9 +53,9 @@ class RestfulController extends SymfonyAbstractController implements MapperAware
         return new Response($data, $statusCode, $headers);
     }
 
-    protected function createListDto(int $total, array $collection): ListDto
+    protected function createListDTO(int $total, array $collection): ListDTO
     {
-        return new ListDto($total, $collection);
+        return new ListDTO($total, $collection);
     }
 
     protected function createListResponse(int $total, iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response
@@ -66,7 +66,7 @@ class RestfulController extends SymfonyAbstractController implements MapperAware
         $items = empty($dtoName) ? $items : $this->mapper->convertCollection($items, $dtoName, $context);
         $items = array_values($items instanceof \Traversable ? iterator_to_array($items) : $items);
 
-        return $this->createResponse($this->createListDto($total, $items), null, [], $statusCode);
+        return $this->createResponse($this->createListDTO($total, $items), null, [], $statusCode);
     }
 
     protected function createCollectionResponse(iterable $collection, string $dtoName = null, array $context = [], $statusCode = Response::HTTP_OK): Response

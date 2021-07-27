@@ -15,9 +15,9 @@ class RequestIdentifierProcessor implements ProcessorInterface
 
     private string $requestId;
 
-    public function __invoke(array $records)
+    public function __invoke(array $record): array
     {
-        $records['extra']['requestId'] = $this->requestId;
-        return $records;
+        $record['extra']['requestId'] = $this->requestId;
+        return $record;
     }
 }

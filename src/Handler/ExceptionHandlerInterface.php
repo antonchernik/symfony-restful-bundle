@@ -6,7 +6,7 @@ interface ExceptionHandlerInterface
 {
     public function supports(): string;
 
-    public function getBody(\Throwable $throwable);
+    public function getBody(\Throwable $throwable): array;
 
     /**
      * Extracts status code from the exception

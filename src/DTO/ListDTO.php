@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace RestfulBundle\Dto;
+namespace RestfulBundle\DTO;
 
-class ListDto
+class ListDTO
 {
     public int $total;
     public array $items;
