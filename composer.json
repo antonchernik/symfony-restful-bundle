@@ -12,9 +12,15 @@
     "doctrine/collections": ">=1.5",
     "antonchernik/dto-bundle": ">=1.0",
     "antonchernik/logging-bundle": ">=1.1",
-    "phpdocumentor/reflection-docblock": "^5.2"
+    "phpdocumentor/reflection-docblock": "^5.2",
+    "justinrainbow/json-schema": "^5.2"
   },
   "autoload": {
     "psr-4": { "RestfulBundle\\": "src/" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RestfulBundle\\Tests\\": "tests/"
+    }
   }
 }
