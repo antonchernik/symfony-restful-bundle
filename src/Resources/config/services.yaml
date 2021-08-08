@@ -46,7 +46,6 @@ services:
 
   RestfulBundle\EventListener\ExceptionListener:
     arguments:
-      $logger: '@logger'
       $requestId: '%restful_bundle.request_id%'
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
