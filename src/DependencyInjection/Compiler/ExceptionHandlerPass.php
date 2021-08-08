@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class ExceptionHandlerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $resolver = $container->getDefinition(ExceptionHandlerResolver::class);
 

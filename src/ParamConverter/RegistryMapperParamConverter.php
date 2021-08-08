@@ -14,12 +14,6 @@ class RegistryMapperParamConverter extends MapperConverter
 {
     use ContainerAwareTrait;
 
-    /**
-     * @param Request                       $request
-     * @param ParamConverter|RegistryMapper $configuration
-     *
-     * @return bool
-     */
     public function apply(Request $request, ParamConverter $configuration): bool
     {
         $registry = $this->getRegistry($configuration->getRegistry());

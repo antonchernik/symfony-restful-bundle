@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace RestfulBundle;
 
 use RestfulBundle\Handler\ExceptionHandlerInterface;
+use Throwable;
 
 class ExceptionHandlerResolver
 {
-    private array $handlers;
+    protected array $handlers;
 
     public function addExceptionHandler(ExceptionHandlerInterface $handler)
     {
         $this->handlers[] = $handler;
     }
 
-    public function resolve(\Throwable $e): ?ExceptionHandlerInterface
+    public function resolve(Throwable $e): ?ExceptionHandlerInterface
     {
         foreach ($this->handlers as $handler) {
             $supports = $handler->supports();

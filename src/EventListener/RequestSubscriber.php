@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RestfulBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -22,7 +21,7 @@ class RequestSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
         if (!in_array($request->getContentType(), $this->supportsTypes())) {

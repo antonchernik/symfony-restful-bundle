@@ -14,15 +14,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MapperConverter implements ParamConverterInterface
 {
-    protected AutoMapperAwareInterface $mapper;
-
-    protected ValidatorInterface $validator;
-
-    public function __construct(AutoMapperAwareInterface $mapper, ValidatorInterface $validator)
-    {
-        $this->validator = $validator;
-        $this->mapper = $mapper;
-    }
+    public function __construct(
+        protected AutoMapperAwareInterface $mapper,
+        protected ValidatorInterface $validator
+    ) {}
 
     public function apply(Request $request, ParamConverter $configuration): bool
     {

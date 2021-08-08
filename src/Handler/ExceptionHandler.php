@@ -8,25 +8,23 @@ use RestfulBundle\Dictionary\Messages;
 use RestfulBundle\Exception\HttpAwareExceptionInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Throwable;
 
 class ExceptionHandler implements ExceptionHandlerInterface
 {
-    protected bool $debug = false;
-
-    public function __construct(bool $debug = false)
-    {
-        $this->debug = $debug;
-    }
+    public function __construct(
+        protected bool $debug = false
+    ) {}
 
     /**
      * {@inheritdoc}
      */
     public function supports(): string
     {
-        return \Throwable::class;
+        return Throwable::class;
     }
 
-    public function getBody(\Throwable $throwable): array
+    public function getBody(Throwable $throwable): array
     {
         $statusCode = $this->getStatusCode($throwable);
 
@@ -51,7 +49,7 @@ class ExceptionHandler implements ExceptionHandlerInterface
     /**
      * Extracts status code from the exception
      */
-    public function getStatusCode(\Throwable $throwable): int
+    public function getStatusCode(Throwable $throwable): int
     {
         return ($throwable instanceof HttpExceptionInterface) || ($throwable instanceof HttpAwareExceptionInterface)
             ? $throwable->getStatusCode()
@@ -61,7 +59,7 @@ class ExceptionHandler implements ExceptionHandlerInterface
     /**
      * Extracts headers from the exception
      */
-    public function getHeaders(\Throwable $throwable): array
+    public function getHeaders(Throwable $throwable): array
     {
         return ($throwable instanceof HttpExceptionInterface) || ($throwable instanceof HttpAwareExceptionInterface)
             ? $throwable->getHeaders()
@@ -71,7 +69,7 @@ class ExceptionHandler implements ExceptionHandlerInterface
     /**
      * Extracts the exception message.
      */
-    protected function getExceptionMessage(\Throwable $throwable, int $statusCode = null): string
+    protected function getExceptionMessage(Throwable $throwable, int $statusCode = null): string
     {
         $message = (string) $throwable->getMessage();
 
@@ -84,7 +82,7 @@ class ExceptionHandler implements ExceptionHandlerInterface
             case $statusCode == Response::HTTP_FORBIDDEN:
                 $message = Messages::ERROR__ACCESS_DENIED;
                 break;
-            case preg_match('/^5\d\d$/', $statusCode):
+            case preg_match('/^5\d\d$/', (string) $statusCode):
                 $message = Messages::ERROR__INTERNAL_SERVER_ERROR;
                 break;
         }

@@ -6,18 +6,16 @@ namespace RestfulBundle\Handler;
 
 use RestfulBundle\Exception\ValidationExceptionInterface;
 use Symfony\Component\Validator\ConstraintViolation;
+use Throwable;
 
 class ValidationHandler extends ExceptionHandler
 {
-    protected array $messagesMap = [];
-
-    private bool $snakeCase;
-
-    public function __construct(bool $debug = false, array $messagesMap = [], bool $snakeCase = true)
-    {
+    public function __construct(
+        bool $debug = false,
+        protected array $messagesMap = [],
+        protected bool $snakeCase = true
+    ) {
         parent::__construct($debug);
-        $this->messagesMap = $messagesMap;
-        $this->snakeCase = $snakeCase;
     }
 
     /**
@@ -28,7 +26,7 @@ class ValidationHandler extends ExceptionHandler
         return ValidationExceptionInterface::class;
     }
 
-    public function getBody(\Throwable $throwable): array
+    public function getBody(Throwable $throwable): array
     {
         $data = parent::getBody($throwable);
 

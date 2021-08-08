@@ -4,31 +4,24 @@ declare(strict_types=1);
 
 namespace RestfulBundle\EventListener;
 
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use RestfulBundle\ExceptionHandlerResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
-class ExceptionListener
+class ExceptionListener implements LoggerAwareInterface
 {
-    private LoggerInterface $logger;
-    private string $requestId;
-    private ExceptionHandlerResolver $handlerResolver;
+    use LoggerAwareTrait;
 
     protected const LOG_TEMPLATE = '%s File %s Line %s Trace: %s';
 
-    /**
-     * @param LoggerInterface $logger
-     * @param string          $requestId
-     */
-    public function __construct(LoggerInterface $logger, string $requestId, ExceptionHandlerResolver $handlerResolver)
-    {
-        $this->logger = $logger;
-        $this->requestId = $requestId;
-        $this->handlerResolver = $handlerResolver;
-    }
+    public function __construct(
+        protected string $requestId,
+        protected ExceptionHandlerResolver $handlerResolver
+    ) {}
 
-    public function onKernelException(ExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
         if (!$exception instanceof \Exception) {

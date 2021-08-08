@@ -10,11 +10,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ValidationException extends HttpException implements ValidationExceptionInterface
 {
-    private array $errors;
-
-    public function __construct(array $errors, string $message = Messages::VALIDATION__COMMON__ERROR)
-    {
-        $this->errors = $errors;
+    public function __construct(
+        private array $errors,
+        string $message = Messages::VALIDATION__COMMON__ERROR
+    ) {
         parent::__construct(Response::HTTP_BAD_REQUEST, $message);
     }
 
