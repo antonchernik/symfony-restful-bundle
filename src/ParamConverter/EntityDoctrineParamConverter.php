@@ -18,7 +18,6 @@ use RestfulBundle\Configuration\Entity;
 use RestfulBundle\Exception\ValidationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -76,7 +75,7 @@ class EntityDoctrineParamConverter extends MapperConverter
                     if ($configuration->isOptional()) {
                         $object = null;
                     } else {
-                        throw new \LogicException(sprintf('Unable to guess how to get a Doctrine instance from the request information for parameter "%s".', $name));
+                        throw new LogicException(sprintf('Unable to guess how to get a Doctrine instance from the request information for parameter "%s".', $name));
                     }
                 }
             }
@@ -93,7 +92,7 @@ class EntityDoctrineParamConverter extends MapperConverter
         } catch (NotFoundHttpException $exception) {
             throw new NotFoundHttpException($configuration->getNotFoundMessage());
         } catch (Exception $exception) {
-            throw new ValidationException(Response::HTTP_BAD_REQUEST, $exception->getMessage());
+            throw new ValidationException([], $exception->getMessage());
         }
 
         return true;
