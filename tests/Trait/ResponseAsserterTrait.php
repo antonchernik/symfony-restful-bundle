@@ -7,6 +7,7 @@ namespace RestfulBundle\Tests\Trait;
 use Exception;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
+use RestfulBundle\Dictionary\Messages;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\RuntimeException;
@@ -217,5 +218,36 @@ trait ResponseAsserterTrait
                 implode(', ', array_keys($values))
             ), 0, $e);
         }
+    }
+
+    public function assertResponseStatusCode(
+        Response $response,
+        int $responseCode = Response::HTTP_OK
+    ): void {
+        $this->assertEquals(
+            $responseCode,
+            $response->getStatusCode(),
+            sprintf('Response code %s (expected %s)', $response->getStatusCode(), $responseCode)
+        );
+    }
+
+    public function assertErrorResponse(
+        Response $response,
+        int $responseCode = Response::HTTP_BAD_REQUEST,
+        string $responseMessage = Messages::VALIDATION__COMMON__ERROR,
+        string $key = 'message'
+    ): void {
+        $this->assertEquals(
+            $responseCode,
+            $response->getStatusCode(),
+            sprintf('Response code %s (expected %s)', $response->getStatusCode(), $responseCode)
+        );
+        $data = json_decode($response->getContent(), true);
+        $this->arrayHasKey($data[$key], sprintf('Response has no key %s in data', $key));
+        $this->assertEquals(
+            $responseMessage,
+            $data[$key],
+            sprintf('Response message %s (expected %s)', $data[$key], $responseMessage)
+        );
     }
 }
