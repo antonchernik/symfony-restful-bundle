@@ -31,8 +31,9 @@ services:
   RestfulBundle\ParamConverter\EntityDoctrineParamConverter:
     arguments:
       $expressionLanguage: '@?sensio_framework_extra.converter.doctrine.orm.expression_language.default'
+      $mapper: '@DTOBundle\Mapper\AutoMapper'
     tags:
-      - { name: request.param_converter, converter: flexible_doctrine_converter }
+      - { name: request.param_converter, priority: 2 }
 
   RestfulBundle\Service\RequestTracker:
     arguments:
