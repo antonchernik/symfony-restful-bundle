@@ -17,39 +17,22 @@ use ReflectionClass;
 use RestfulBundle\Configuration\Entity;
 use RestfulBundle\Exception\ValidationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class EntityDoctrineParamConverter implements ParamConverterInterface
+class EntityDoctrineParamConverter extends MapperConverter
 {
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
-
-    /**
-     * @var ExpressionLanguage
-     */
-    private $language;
-
-    /**
-     * @var array
-     */
-    private $defaultOptions;
+    private array $defaultOptions;
 
     public function __construct(
-        ManagerRegistry $registry = null,
-        ExpressionLanguage $expressionLanguage = null,
-        protected AutoMapperAwareInterface $mapper,
-        protected ValidatorInterface $validator,
+        protected ?ManagerRegistry $registry = null,
+        protected ?ExpressionLanguage $expressionLanguage = null,
+        AutoMapperAwareInterface $mapper,
+        ValidatorInterface $validator,
         array $options = []
     ) {
-        $this->registry = $registry;
-        $this->language = $expressionLanguage;
-
         $defaultValues = [
             'entity_manager' => null,
             'exclude' => [],
@@ -61,32 +44,12 @@ class EntityDoctrineParamConverter implements ParamConverterInterface
         ];
 
         $this->defaultOptions = array_merge($defaultValues, $options);
+        parent::__construct($mapper, $validator);
     }
 
     public function apply(Request $request, ParamConverter $configuration): bool
     {
-        $class = $configuration->getClass();
-        try {
-            $dto = $this
-                ->mapper
-                ->convert(
-                    array_merge(
-                        $request->attributes->get('_route_params', []),
-                        $request->query->all(),
-                        $request->request->all()
-                    ),
-                    $class,
-                    []
-                );
-        } catch (Exception $exception) {
-            throw new ValidationException([], $exception->getMessage());
-        }
-
-        $errors = $this->validator->validate($dto, null, $configuration->getValidationGroups());
-
-        if (count($errors) > 0) {
-            throw new ValidationException((array) $errors->getIterator());
-        }
+        $this->validateDTO($request, $configuration);
 
         try {
             $name = $configuration->getName();
@@ -268,7 +231,7 @@ class EntityDoctrineParamConverter implements ParamConverterInterface
 
     private function findViaExpression($class, Request $request, $expression, $options, ParamConverter $configuration)
     {
-        if (null === $this->language) {
+        if (null === $this->expressionLanguage) {
             throw new LogicException(sprintf('To use the @%s tag with the "expr" option, you need to install the ExpressionLanguage component.', $this->getAnnotationName($configuration)));
         }
 
@@ -276,7 +239,7 @@ class EntityDoctrineParamConverter implements ParamConverterInterface
         $variables = array_merge($request->attributes->all(), ['repository' => $repository]);
 
         try {
-            return $this->language->evaluate($expression, $variables);
+            return $this->expressionLanguage->evaluate($expression, $variables);
         } catch (NoResultException $e) {
             return;
         } catch (ConversionException $e) {

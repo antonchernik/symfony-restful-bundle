@@ -21,6 +21,14 @@ class MapperConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration): bool
     {
+        $dto = $this->validateDTO($request, $configuration);
+        $request->attributes->set($configuration->getName(), $dto);
+
+        return true;
+    }
+
+    protected function validateDTO(Request $request, ParamConverter $configuration): mixed
+    {
         $class = $configuration->getClass();
         $dto = $this
             ->mapper
@@ -39,9 +47,7 @@ class MapperConverter implements ParamConverterInterface
             throw new ValidationException((array) $errors->getIterator());
         }
 
-        $request->attributes->set($configuration->getName(), $dto);
-
-        return true;
+        return $dto;
     }
 
     public function supports(ParamConverter $configuration): bool
