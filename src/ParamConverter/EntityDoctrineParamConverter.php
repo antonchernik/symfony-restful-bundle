@@ -18,6 +18,7 @@ use RestfulBundle\Configuration\Entity;
 use RestfulBundle\Exception\ValidationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -49,9 +50,9 @@ class EntityDoctrineParamConverter extends MapperConverter
 
     public function apply(Request $request, ParamConverter $configuration): bool
     {
-        $this->validateDTO($request, $configuration);
-
         try {
+            $this->validateDTO($request, $configuration);
+
             $name = $configuration->getName();
             $class = $configuration->getClass();
             $options = $this->getOptions($configuration);
@@ -91,6 +92,8 @@ class EntityDoctrineParamConverter extends MapperConverter
             $request->attributes->set($name, $object);
         } catch (NotFoundHttpException $exception) {
             throw new NotFoundHttpException($configuration->getNotFoundMessage());
+        } catch (Exception $exception) {
+            throw new ValidationException(Response::HTTP_BAD_REQUEST, $exception->getMessage());
         }
 
         return true;
