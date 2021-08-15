@@ -231,10 +231,10 @@ trait ResponseAsserterTrait
         );
     }
 
-    public function assertErrorResponse(
+    public function assertErrorMessageResponse(
         Response $response,
-        int $responseCode = Response::HTTP_BAD_REQUEST,
         string $responseMessage = Messages::VALIDATION__COMMON__ERROR,
+        int $responseCode = Response::HTTP_BAD_REQUEST,
         string $key = 'message'
     ): void {
         $this->assertEquals(
@@ -248,6 +248,26 @@ trait ResponseAsserterTrait
             $responseMessage,
             $data[$key],
             sprintf('Response message %s (expected %s)', $data[$key], $responseMessage)
+        );
+    }
+
+    public function assertValidationErrorResponse(
+        Response $response,
+        array $assert,
+        int $responseCode = Response::HTTP_BAD_REQUEST,
+        string $key = 'errors'
+    ): void {
+        $this->assertEquals(
+            $responseCode,
+            $response->getStatusCode(),
+            sprintf('Response code %s (expected %s)', $response->getStatusCode(), $responseCode)
+        );
+        $data = json_decode($response->getContent(), true);
+        $this->arrayHasKey($data[$key], sprintf('Response has no key %s in data', $key));
+        $this->assertEquals(
+            $assert,
+            $data[$key],
+            sprintf('Validation errors %s', json_encode($data[$key] ?? null))
         );
     }
 }
