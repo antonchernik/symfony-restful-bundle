@@ -263,8 +263,8 @@ trait ResponseAsserterTrait
             sprintf('Response code %s (expected %s)', $response->getStatusCode(), $responseCode)
         );
         $data = json_decode($response->getContent(), true);
-        $this->arrayHasKey($data[$key], sprintf('Response has no key %s in data', $key));
         if (is_array($assert)) {
+            $this->arrayHasKey($data[$key], sprintf('Response has no key %s in data', $key));
             $this->assertEquals(
                 $assert,
                 $data[$key],
