@@ -253,7 +253,7 @@ trait ResponseAsserterTrait
 
     public function assertValidationErrorResponse(
         Response $response,
-        array $assert,
+        ?array $assert,
         int $responseCode = Response::HTTP_BAD_REQUEST,
         string $key = 'errors'
     ): void {
@@ -264,10 +264,12 @@ trait ResponseAsserterTrait
         );
         $data = json_decode($response->getContent(), true);
         $this->arrayHasKey($data[$key], sprintf('Response has no key %s in data', $key));
-        $this->assertEquals(
-            $assert,
-            $data[$key],
-            sprintf('Validation errors %s', json_encode($data[$key] ?? null))
-        );
+        if (is_array($assert)) {
+            $this->assertEquals(
+                $assert,
+                $data[$key],
+                sprintf('Validation errors %s', json_encode($data[$key] ?? null))
+            );
+        }
     }
 }
