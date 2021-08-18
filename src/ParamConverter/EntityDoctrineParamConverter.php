@@ -13,6 +13,7 @@ use DTOBundle\Mapper\AutoMapperAwareInterface;
 use Exception;
 use InvalidArgumentException;
 use LogicException;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use ReflectionClass;
 use RestfulBundle\Configuration\Entity;
 use RestfulBundle\Exception\ValidationException;
@@ -51,7 +52,11 @@ class EntityDoctrineParamConverter extends MapperConverter
     {
         try {
             $this->validateDTO($request, $configuration);
+        } catch (Exception $exception) {
+            throw new ValidationException([], $exception->getMessage());
+        }
 
+        try {
             $name = $configuration->getName();
             $class = $configuration->getClass();
             $options = $this->getOptions($configuration);
@@ -91,8 +96,6 @@ class EntityDoctrineParamConverter extends MapperConverter
             $request->attributes->set($name, $object);
         } catch (NotFoundHttpException $exception) {
             throw new NotFoundHttpException($configuration->getNotFoundMessage());
-        } catch (Exception $exception) {
-            throw new ValidationException([], $exception->getMessage());
         }
 
         return true;
